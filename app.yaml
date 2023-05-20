@@ -1,0 +1,37 @@
+# Google App Engine
+runtime: python311
+
+env_variables:
+  # Credentials for connecting to ChatGPT
+  OPENAI_API_KEY: "<fill>"
+
+  # Credentials for connecting to Whatsapp hosted on Twilio
+  TWILIO_ACCOUNT_SSID: "<fill>"
+  TWILIO_ACCOUNT_SECRET: "<fill>"
+
+  # Whatsapp Details
+  TWILIO_HOSTED_WHATSAPP_NUMBER: "<fill>"
+  PERSONAL_WHATSAPP_NUMBER: "<fill>"
+  
+instance_class: F1
+
+# service: whatsapp-chatgpt-bot
+
+# To only allow HTTPS traffic
+handlers:
+- url: /.*
+  secure: always
+  script: auto
+
+# Scale app only when:
+#         1. CPU Utilization goes above 90%
+#         2. Pending times goes above 500ms
+# Instance automatically shuts down 15 minute after no activity
+automatic_scaling:
+  target_cpu_utilization: 0.9
+  min_instances: 0
+  max_instances: 1
+  min_idle_instances: 0
+  max_idle_instances: 1
+  min_pending_latency: 100ms
+  max_pending_latency: 500ms
